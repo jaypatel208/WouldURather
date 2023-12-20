@@ -19,7 +19,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.WouldURather">
+            android:theme="@style/Theme.AnimatedSplashScreen.WouldURather">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
