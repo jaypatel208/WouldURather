@@ -38,9 +38,17 @@ fun HomeScreen(dilemmaViewModel: DilemmaViewModel = hiltViewModel()) {
                 }
 
                 is ResourceState.Success -> {
-                    SetUpScreen()
                     val dilemmaResponse = (dilemmaRes as ResourceState.Success).data
                     Log.d(CoreUtility.TAG, "$dilemmaResponse")
+                    val votes =
+                        CoreUtility.getVotePercentages(dilemmaResponse.option1Votes, dilemmaResponse.option2Votes)
+                    SetUpScreen(
+                        votePercentage1 = votes.first,
+                        question1 = dilemmaResponse.option1,
+                        votePercentage2 = votes.second,
+                        question2 = dilemmaResponse.option2,
+                        showVotesPercentage = false
+                    )
                 }
 
                 is ResourceState.Error -> {
@@ -57,7 +65,13 @@ fun HomeScreen(dilemmaViewModel: DilemmaViewModel = hiltViewModel()) {
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun SetUpScreen() {
+fun SetUpScreen(
+    votePercentage1: String,
+    question1: String,
+    votePercentage2: String,
+    question2: String,
+    showVotesPercentage: Boolean
+) {
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         CenterAlignedTopAppBar(
             title = {
@@ -72,6 +86,6 @@ fun SetUpScreen() {
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.Black)
         )
     }) {
-        FinalGameScreen()
+        FinalGameScreen(votePercentage1, question1, votePercentage2, question2, showVotesPercentage)
     }
 }

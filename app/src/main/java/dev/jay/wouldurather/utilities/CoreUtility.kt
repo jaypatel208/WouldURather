@@ -24,4 +24,12 @@ object CoreUtility {
     fun getRandomQuestion(): Int {
         return Random.nextInt(1, 587)
     }
+
+    fun getVotePercentages(option1Votes: Int, option2Votes: Int): Pair<String, String> {
+        val totalVotes = option1Votes + option2Votes
+        val percentageOption1 = (option1Votes * 100) / totalVotes
+        val percentageOption2 = (option2Votes * 100) / totalVotes
+
+        return Pair(percentageOption1.toString(), percentageOption2.toString())
+    }
 }

@@ -2,6 +2,7 @@ package dev.jay.wouldurather.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -85,20 +86,26 @@ fun NormalTextComponent(textValue: String, centerAligned: Boolean = false) {
 }
 
 @Composable
-fun ChoiceComponent(color: Color, shoeVotesPercentage: Boolean) {
+fun ChoiceComponent(
+    color: Color,
+    showVotesPercentage: Boolean,
+    votePercentage: String,
+    question: String
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color),
+            .background(color)
+            .clickable {  },
         contentAlignment = Alignment.Center
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (shoeVotesPercentage) {
+            if (showVotesPercentage) {
                 Text(
-                    text = "89 %",
+                    text = "$votePercentage %",
                     color = Color.White,
                     fontFamily = poppinsPercentageFontFamily,
                     fontSize = 64.sp
@@ -106,13 +113,12 @@ fun ChoiceComponent(color: Color, shoeVotesPercentage: Boolean) {
             }
 
             Text(
-                text = "Ability to heal others and not yourself",
+                text = question,
                 color = Color.White,
                 fontFamily = poppinsQuestionFontFamily,
-                fontSize = 30.sp,
+                fontSize = 28.sp,
                 modifier = Modifier.padding(start = 16.dp),
-                lineHeight = 30.sp,
-                maxLines = 3
+                lineHeight = 30.sp
             )
         }
     }
@@ -153,21 +159,43 @@ fun OrDividerComponent() {
 }
 
 @Composable
-fun FinalGameScreen() {
+fun FinalGameScreen(
+    votePercentage1: String,
+    question1: String,
+    votePercentage2: String,
+    question2: String,
+    showVotesPercentage: Boolean
+) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        TwoChoicesScreen()
+        TwoChoicesScreen(votePercentage1, question1, votePercentage2, question2, showVotesPercentage)
         OrDividerComponent()
     }
 }
 
 @Composable
-fun TwoChoicesScreen() {
+fun TwoChoicesScreen(
+    votePercentage1: String,
+    question1: String,
+    votePercentage2: String,
+    question2: String,
+    showVotesPercentage: Boolean
+) {
     Column {
         Row(modifier = Modifier.weight(1f)) {
-            ChoiceComponent(color = RedChoice, shoeVotesPercentage = true)
+            ChoiceComponent(
+                color = RedChoice,
+                showVotesPercentage = showVotesPercentage,
+                votePercentage = votePercentage1,
+                question = question1
+            )
         }
         Row(modifier = Modifier.weight(1f)) {
-            ChoiceComponent(color = BlueChoice, shoeVotesPercentage = true)
+            ChoiceComponent(
+                color = BlueChoice,
+                showVotesPercentage = showVotesPercentage,
+                votePercentage = votePercentage2,
+                question = question2
+            )
         }
     }
 }
