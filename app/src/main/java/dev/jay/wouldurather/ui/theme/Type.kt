@@ -15,7 +15,34 @@ val doodleFontFamily = FontFamily(
     )
 )
 
-// Set of Material typography styles to start with
+val poppinsHeaderQuestionFontFamily = FontFamily(
+    Font(
+        resId = R.font.poppins_bold,
+        weight = FontWeight.Bold
+    )
+)
+
+val poppinsPercentageFontFamily = FontFamily(
+    Font(
+        resId = R.font.poppins_extra_bold,
+        weight = FontWeight.ExtraBold
+    )
+)
+
+val poppinsQuestionFontFamily = FontFamily(
+    Font(
+        resId = R.font.poppins_regular,
+        weight = FontWeight.Normal
+    )
+)
+
+val poppinsOrFontFamily = FontFamily(
+    Font(
+        resId = R.font.poppins_semi_bold,
+        weight = FontWeight.SemiBold
+    )
+)
+
 val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = FontFamily.Default,
@@ -29,20 +56,4 @@ val Typography = Typography(
         fontWeight = FontWeight.Bold,
         fontSize = 48.sp
     )
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
-    ),
-    labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
-    )
-    */
 )
