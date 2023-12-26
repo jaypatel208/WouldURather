@@ -3,6 +3,7 @@ package dev.jay.wouldurather.utilities
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import kotlin.math.roundToInt
 import kotlin.random.Random
 
 object CoreUtility {
@@ -27,8 +28,8 @@ object CoreUtility {
 
     fun getVotePercentages(option1Votes: Int, option2Votes: Int): Pair<String, String> {
         val totalVotes = option1Votes + option2Votes
-        val percentageOption1 = (option1Votes * 100) / totalVotes
-        val percentageOption2 = (option2Votes * 100) / totalVotes
+        val percentageOption1 = ((option1Votes.toDouble() / totalVotes) * 100).roundToInt()
+        val percentageOption2 = ((option2Votes.toDouble() / totalVotes) * 100).roundToInt()
 
         return Pair(percentageOption1.toString(), percentageOption2.toString())
     }
