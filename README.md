@@ -24,7 +24,7 @@ In **Dilemma**, players are presented with two options for various social questi
 
 Check out the app in action! A demo video is attached to showcase the gameplay and features.
 
-[Demo Video](link_to_demo_video)
+[Demo Video](https://github.com/jaypatel208/WouldURather/assets/83394162/4822fe86-5f5f-49fa-8270-8f29a6e9fe27)  
 
 ## Getting Started
 
