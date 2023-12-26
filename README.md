@@ -22,11 +22,9 @@ In **Dilemma**, players are presented with two options for various social questi
 
 ## Demo
 
-Check out the app in action! A demo video is attached to showcase the gameplay and features.
+Check out the app in action! A demo video is attached to showcase the gameplay and features.  
 
-<div style="display: flex; justify-content: center;">
-    <img src="https://github.com/jaypatel208/WouldURather/assets/83394162/4822fe86-5f5f-49fa-8270-8f29a6e9fe27" alt="Demo Video" width="80%"/>
-</div>
+[Demo Video](https://github.com/jaypatel208/WouldURather/assets/83394162/4822fe86-5f5f-49fa-8270-8f29a6e9fe27)  
 
 ## Getting Started
 
