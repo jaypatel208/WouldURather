@@ -1,5 +1,7 @@
 package dev.jay.wouldurather.ui.components
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,6 +21,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,6 +41,7 @@ import dev.jay.wouldurather.ui.theme.RedChoice
 import dev.jay.wouldurather.ui.theme.poppinsOrFontFamily
 import dev.jay.wouldurather.ui.theme.poppinsPercentageFontFamily
 import dev.jay.wouldurather.ui.theme.poppinsQuestionFontFamily
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun LoadingText() {
@@ -88,28 +95,26 @@ fun NormalTextComponent(textValue: String, centerAligned: Boolean = false) {
 @Composable
 fun ChoiceComponent(
     color: Color,
-    showVotesPercentage: Boolean,
+    showVotesPercentage: StateFlow<Boolean>,
     votePercentage: String,
-    question: String
+    question: String,
+    onComponentClick: () -> Unit
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(color)
-            .clickable {  },
+            .clickable { onComponentClick() },
         contentAlignment = Alignment.Center
     ) {
+        val isShowVotesPercentage by showVotesPercentage.collectAsState()
+
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (showVotesPercentage) {
-                Text(
-                    text = "$votePercentage %",
-                    color = Color.White,
-                    fontFamily = poppinsPercentageFontFamily,
-                    fontSize = 64.sp
-                )
+            if (isShowVotesPercentage) {
+                RevealingPercentageText(votePercentage)
             }
 
             Text(
@@ -122,6 +127,22 @@ fun ChoiceComponent(
             )
         }
     }
+}
+
+@Composable
+fun RevealingPercentageText(votePercentage: String) {
+    val animatedValue = remember { Animatable(0f) }
+
+    LaunchedEffect(key1 = true) {
+        animatedValue.animateTo(votePercentage.toFloat(), animationSpec = tween(durationMillis = 1000))
+    }
+
+    Text(
+        text = "${animatedValue.value.toInt()} %",
+        color = Color.White,
+        fontFamily = poppinsPercentageFontFamily,
+        fontSize = 64.sp
+    )
 }
 
 @Composable
@@ -164,10 +185,11 @@ fun FinalGameScreen(
     question1: String,
     votePercentage2: String,
     question2: String,
-    showVotesPercentage: Boolean
+    showVotesPercentage: StateFlow<Boolean>,
+    onComponentClick: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        TwoChoicesScreen(votePercentage1, question1, votePercentage2, question2, showVotesPercentage)
+        TwoChoicesScreen(votePercentage1, question1, votePercentage2, question2, showVotesPercentage, onComponentClick)
         OrDividerComponent()
     }
 }
@@ -178,7 +200,8 @@ fun TwoChoicesScreen(
     question1: String,
     votePercentage2: String,
     question2: String,
-    showVotesPercentage: Boolean
+    showVotesPercentage: StateFlow<Boolean>,
+    onComponentClick: () -> Unit
 ) {
     Column {
         Row(modifier = Modifier.weight(1f)) {
@@ -186,7 +209,8 @@ fun TwoChoicesScreen(
                 color = RedChoice,
                 showVotesPercentage = showVotesPercentage,
                 votePercentage = votePercentage1,
-                question = question1
+                question = question1,
+                onComponentClick = onComponentClick,
             )
         }
         Row(modifier = Modifier.weight(1f)) {
@@ -194,7 +218,8 @@ fun TwoChoicesScreen(
                 color = BlueChoice,
                 showVotesPercentage = showVotesPercentage,
                 votePercentage = votePercentage2,
-                question = question2
+                question = question2,
+                onComponentClick = onComponentClick
             )
         }
     }

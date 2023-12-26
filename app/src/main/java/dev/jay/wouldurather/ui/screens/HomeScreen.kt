@@ -25,6 +25,7 @@ import dev.jay.wouldurather.ui.theme.poppinsHeaderQuestionFontFamily
 import dev.jay.wouldurather.ui.viewmodel.DilemmaViewModel
 import dev.jay.wouldurather.utilities.CoreUtility
 import dev.jay.wouldurather.utilities.ResourceState
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun HomeScreen(dilemmaViewModel: DilemmaViewModel = hiltViewModel()) {
@@ -32,14 +33,17 @@ fun HomeScreen(dilemmaViewModel: DilemmaViewModel = hiltViewModel()) {
         val dilemmaRes by dilemmaViewModel.dilemma.collectAsState()
 
         Surface(modifier = Modifier.fillMaxSize(), color = Color.Black) {
-            when (dilemmaRes) {
-                is ResourceState.Loading -> {
+            when {
+                dilemmaViewModel.reloadScreen.value -> {
+                    dilemmaViewModel.onScreenReloaded()
+                }
+
+                dilemmaRes is ResourceState.Loading -> {
                     LoadingText()
                 }
 
-                is ResourceState.Success -> {
+                dilemmaRes is ResourceState.Success -> {
                     val dilemmaResponse = (dilemmaRes as ResourceState.Success).data
-                    Log.d(CoreUtility.TAG, "$dilemmaResponse")
                     val votes =
                         CoreUtility.getVotePercentages(dilemmaResponse.option1Votes, dilemmaResponse.option2Votes)
                     SetUpScreen(
@@ -47,11 +51,12 @@ fun HomeScreen(dilemmaViewModel: DilemmaViewModel = hiltViewModel()) {
                         question1 = dilemmaResponse.option1,
                         votePercentage2 = votes.second,
                         question2 = dilemmaResponse.option2,
-                        showVotesPercentage = false
+                        showVotesPercentage = dilemmaViewModel.showVotesPercentage,
+                        onComponentClick = { dilemmaViewModel.onChoiceComponentClick() }
                     )
                 }
 
-                is ResourceState.Error -> {
+                dilemmaRes is ResourceState.Error -> {
                     val error = (dilemmaRes as ResourceState.Error)
                     Log.d(CoreUtility.TAG, "HomeScreen ResourceState.Error: $error")
                 }
@@ -70,7 +75,8 @@ fun SetUpScreen(
     question1: String,
     votePercentage2: String,
     question2: String,
-    showVotesPercentage: Boolean
+    showVotesPercentage: StateFlow<Boolean>,
+    onComponentClick: () -> Unit
 ) {
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         CenterAlignedTopAppBar(
@@ -86,6 +92,6 @@ fun SetUpScreen(
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.Black)
         )
     }) {
-        FinalGameScreen(votePercentage1, question1, votePercentage2, question2, showVotesPercentage)
+        FinalGameScreen(votePercentage1, question1, votePercentage2, question2, showVotesPercentage, onComponentClick)
     }
 }
