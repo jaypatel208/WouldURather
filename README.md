@@ -30,7 +30,7 @@ Check out the app in action! A demo video is attached to showcase the gameplay a
 
 To run the app locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/yourusername/dilemma-app.git`
+1. Clone the repository: `git clone https://github.com/jaypatel208/WouldURather`
 
 2. Open the project in Android Studio.
 
